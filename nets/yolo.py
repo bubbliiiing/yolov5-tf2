@@ -10,7 +10,7 @@ from nets.yolo_training import yolo_loss
 #---------------------------------------------------#
 #   Panet网络的构建，并且获得预测结果
 #---------------------------------------------------#
-def yolo_body(input_shape, anchors_mask, num_classes, phi, weight_decay):
+def yolo_body(input_shape, anchors_mask, num_classes, phi, weight_decay=5e-4):
     depth_dict          = {'s' : 0.33, 'm' : 0.67, 'l' : 1.00, 'x' : 1.33,}
     width_dict          = {'s' : 0.50, 'm' : 0.75, 'l' : 1.00, 'x' : 1.25,}
     dep_mul, wid_mul    = depth_dict[phi], width_dict[phi]
