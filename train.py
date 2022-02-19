@@ -299,7 +299,7 @@ if __name__ == "__main__":
                 K.set_value(optimizer.lr, lr)
 
                 fit_one_epoch(model_body, loss_history, optimizer, epoch, epoch_step, epoch_step_val, gen, gen_val, 
-                            end_epoch, input_shape, anchors, anchors_mask, num_classes, label_smoothing)
+                            end_epoch, input_shape, anchors, anchors_mask, num_classes, label_smoothing, save_period)
         else:
             model.compile(optimizer = optimizer, loss={'yolo_loss': lambda y_true, y_pred: y_pred})
             #-------------------------------------------------------------------------------#
