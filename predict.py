@@ -23,9 +23,13 @@ if __name__ == "__main__":
     #   'video'表示视频检测，可调用摄像头或者视频进行检测，详情查看下方注释。
     #   'fps'表示测试fps，使用的图片是img里面的street.jpg，详情查看下方注释。
     #   'dir_predict'表示遍历文件夹进行检测并保存。默认遍历img文件夹，保存img_out文件夹，详情查看下方注释。
-    #   'crop'表示单张图片预测后对目标进行截取
     #----------------------------------------------------------------------------------------------------------#
     mode = "predict"
+    #-------------------------------------------------------------------------#
+    #   crop指定了是否在单张图片预测后对目标进行截取
+    #   crop仅在mode='predict'时有效
+    #-------------------------------------------------------------------------#
+    crop            = False
     #----------------------------------------------------------------------------------------------------------#
     #   video_path用于指定视频的路径，当video_path=0时表示检测摄像头
     #   想要检测视频，则设置如video_path = "xxx.mp4"即可，代表读取出根目录下的xxx.mp4文件。
@@ -68,7 +72,7 @@ if __name__ == "__main__":
                 print('Open Error! Try again!')
                 continue
             else:
-                r_image = yolo.detect_image(image)
+                r_image = yolo.detect_image(image, crop = crop)
                 r_image.show()
 
     elif mode == "video":
@@ -136,17 +140,6 @@ if __name__ == "__main__":
                 if not os.path.exists(dir_save_path):
                     os.makedirs(dir_save_path)
                 r_image.save(os.path.join(dir_save_path, img_name.replace(".jpg", ".png")), quality=95, subsampling=0)
-                
-    elif mode == "crop":
-        while True:
-            img = input('Input image filename:')
-            try:
-                image = Image.open(img)
-            except:
-                print('Open Error! Try again!')
-                continue
-            else:
-                r_image = yolo.detect_image(image, crop=True)
-                
+
     else:
         raise AssertionError("Please specify the correct mode: 'predict', 'video', 'fps' or 'dir_predict'.")
