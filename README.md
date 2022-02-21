@@ -19,7 +19,7 @@
 | COCO-Train2017 | [yolov5_x.pth](https://github.com/bubbliiiing/yolov5-tf2/releases/download/v1.0/yolov5_x.pth) | COCO-Val2017 | 640x640 | 49.4 | 67.9 
 
 ## 所需环境
-keras==2.1.5
+keras==2.1.5  
 tensorflow-gpu==1.13.2
 
 ## 文件下载
