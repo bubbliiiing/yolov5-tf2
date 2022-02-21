@@ -16,7 +16,7 @@ class LossHistory(keras.callbacks.Callback):
 
     def on_epoch_end(self, epoch, logs={}):
         if not os.path.exists(self.log_dir):
-            os.makedirs(self.save_path)
+            os.makedirs(self.log_dir)
 
         self.losses.append(logs.get('loss'))
         self.val_loss.append(logs.get('val_loss'))

@@ -220,8 +220,6 @@ if __name__ == "__main__":
         #   如果不冻结训练的话，直接设置batch_size为Unfreeze_batch_size
         #-------------------------------------------------------------------#
         batch_size  = Freeze_batch_size if Freeze_Train else Unfreeze_batch_size
-        start_epoch = Init_Epoch
-        end_epoch   = Freeze_Epoch if Freeze_Train else UnFreeze_Epoch
         
         #-------------------------------------------------------------------#
         #   判断当前batch_size与64的差别，自适应调整学习率
@@ -250,7 +248,9 @@ if __name__ == "__main__":
         }[optimizer_type]
         
         if eager:
-            UnFreeze_flag = False
+            start_epoch     = Init_Epoch
+            end_epoch       = UnFreeze_Epoch
+            UnFreeze_flag   = False
 
             gen     = tf.data.Dataset.from_generator(partial(train_dataloader.generate), (tf.float32, tf.float32, tf.float32, tf.float32))
             gen_val = tf.data.Dataset.from_generator(partial(val_dataloader.generate), (tf.float32, tf.float32, tf.float32, tf.float32))
@@ -264,7 +264,7 @@ if __name__ == "__main__":
             #---------------------------------------#
             #   开始模型训练
             #---------------------------------------#
-            for epoch in range(Init_Epoch, UnFreeze_Epoch):
+            for epoch in range(start_epoch, end_epoch):
                 #---------------------------------------#
                 #   如果模型有冻结学习部分
                 #   则解冻，并设置参数
@@ -301,6 +301,9 @@ if __name__ == "__main__":
                 fit_one_epoch(model_body, loss_history, optimizer, epoch, epoch_step, epoch_step_val, gen, gen_val, 
                             end_epoch, input_shape, anchors, anchors_mask, num_classes, label_smoothing, save_period)
         else:
+            start_epoch = Init_Epoch
+            end_epoch   = Freeze_Epoch if Freeze_Train else UnFreeze_Epoch
+
             model.compile(optimizer = optimizer, loss={'yolo_loss': lambda y_true, y_pred: y_pred})
             #-------------------------------------------------------------------------------#
             #   训练参数的设置

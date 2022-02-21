@@ -3,8 +3,9 @@ from functools import wraps
 import tensorflow as tf
 from tensorflow.keras import backend as K
 from tensorflow.keras.initializers import RandomNormal
-from tensorflow.keras.layers import (Add, BatchNormalization, Concatenate, Conv2D, Layer, BatchNormalization,
-                          MaxPooling2D, ZeroPadding2D)
+from tensorflow.keras.layers import (Add, BatchNormalization, Concatenate,
+                                     Conv2D, Layer, MaxPooling2D,
+                                     ZeroPadding2D)
 from tensorflow.keras.regularizers import l2
 from utils.utils import compose
 
