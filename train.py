@@ -5,12 +5,12 @@ from functools import partial
 import tensorflow as tf
 import tensorflow.keras.backend as K
 from tensorflow.keras.callbacks import (EarlyStopping, LearningRateScheduler,
-                                        ModelCheckpoint, TensorBoard)
+                                        TensorBoard)
 from tensorflow.keras.optimizers import SGD, Adam
 
 from nets.yolo import get_train_model, yolo_body
 from nets.yolo_training import get_lr_scheduler
-from utils.callbacks import LossHistory
+from utils.callbacks import LossHistory, ModelCheckpoint
 from utils.dataloader import YoloDatasets
 from utils.utils import get_anchors, get_classes
 from utils.utils_fit import fit_one_epoch
