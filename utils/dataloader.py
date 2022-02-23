@@ -70,7 +70,7 @@ class YoloDatasets(keras.utils.Sequence):
                 #   验证时不进行数据的随机增强
                 #---------------------------------------------------#
                 if self.mosaic:
-                    if self.rand() < 0.5:
+                    if self.rand() < 0.5 and self.epoch_now < self.epoch_length * self.mosaic_ratio:
                         lines = sample(self.annotation_lines, 3)
                         lines.append(self.annotation_lines[i])
                         shuffle(lines)
