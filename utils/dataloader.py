@@ -10,7 +10,7 @@ from utils.utils import cvtColor, preprocess_input
 
 
 class YoloDatasets(keras.utils.Sequence):
-    def __init__(self, annotation_lines, input_shape, anchors, batch_size, num_classes, anchors_mask, epoch_length, mosaic, train, mosaic_ratio = 0.7):
+    def __init__(self, annotation_lines, input_shape, anchors, batch_size, num_classes, anchors_mask, epoch_now, epoch_length, mosaic, train, mosaic_ratio = 0.7):
         self.annotation_lines   = annotation_lines
         self.length             = len(self.annotation_lines)
         
@@ -19,13 +19,13 @@ class YoloDatasets(keras.utils.Sequence):
         self.batch_size         = batch_size
         self.num_classes        = num_classes
         self.anchors_mask       = anchors_mask
+        self.epoch_now          = epoch_now - 1
         self.epoch_length       = epoch_length
         self.mosaic             = mosaic
         self.train              = train
         self.mosaic_ratio       = mosaic_ratio
 
         self.threshold          = 4
-        self.epoch_now          = -1
 
     def __len__(self):
         return math.ceil(len(self.annotation_lines) / float(self.batch_size))

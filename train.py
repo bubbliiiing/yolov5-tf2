@@ -239,8 +239,8 @@ if __name__ == "__main__":
         if epoch_step == 0 or epoch_step_val == 0:
             raise ValueError('数据集过小，无法进行训练，请扩充数据集。')
 
-        train_dataloader    = YoloDatasets(train_lines, input_shape, anchors, batch_size, num_classes, anchors_mask, UnFreeze_Epoch, mosaic = mosaic, train = True)
-        val_dataloader      = YoloDatasets(val_lines, input_shape, anchors, batch_size, num_classes, anchors_mask, UnFreeze_Epoch, mosaic = False, train = False)
+        train_dataloader    = YoloDatasets(train_lines, input_shape, anchors, batch_size, num_classes, anchors_mask, Init_Epoch, UnFreeze_Epoch, mosaic = mosaic, train = True)
+        val_dataloader      = YoloDatasets(val_lines, input_shape, anchors, batch_size, num_classes, anchors_mask, Init_Epoch, UnFreeze_Epoch, mosaic = False, train = False)
         
         optimizer = {
             'adam'  : Adam(lr = Init_lr, beta_1 = momentum),
