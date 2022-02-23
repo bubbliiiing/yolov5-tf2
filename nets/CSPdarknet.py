@@ -47,7 +47,7 @@ class Focus(Layer):
 #------------------------------------------------------#
 @wraps(Conv2D)
 def DarknetConv2D(*args, **kwargs):
-    darknet_conv_kwargs = {'kernel_initializer' : RandomNormal(stddev=0.1), 'kernel_regularizer' : l2(kwargs.get('weight_decay', 5e-4))}
+    darknet_conv_kwargs = {'kernel_initializer' : RandomNormal(stddev=0.02), 'kernel_regularizer' : l2(kwargs.get('weight_decay', 5e-4))}
     darknet_conv_kwargs['padding'] = 'valid' if kwargs.get('strides')==(2, 2) else 'same'   
     try:
         del kwargs['weight_decay']
