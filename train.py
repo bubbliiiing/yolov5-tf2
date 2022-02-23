@@ -292,14 +292,15 @@ if __name__ == "__main__":
                     
                     UnFreeze_flag = True
 
-                train_dataloader.on_epoch_begin()
-                val_dataloader.on_epoch_begin()
                 lr = lr_scheduler_func(epoch)
                 K.set_value(optimizer.lr, lr)
                 K.set_value(optimizer.lr, lr)
 
                 fit_one_epoch(model_body, loss_history, optimizer, epoch, epoch_step, epoch_step_val, gen, gen_val, 
                             end_epoch, input_shape, anchors, anchors_mask, num_classes, label_smoothing, save_period)
+                            
+                train_dataloader.on_epoch_end()
+                val_dataloader.on_epoch_end()
         else:
             start_epoch = Init_Epoch
             end_epoch   = Freeze_Epoch if Freeze_Train else UnFreeze_Epoch

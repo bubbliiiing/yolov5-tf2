@@ -88,7 +88,7 @@ class YoloDatasets(keras.utils.Sequence):
             y_true      = self.preprocess_true_boxes(box_data, self.input_shape, self.anchors, self.num_classes)
             yield image_data, y_true[0], y_true[1], y_true[2]
             
-    def on_epoch_begin(self):
+    def on_epoch_end(self):
         self.epoch_now += 1
         shuffle(self.annotation_lines)
 
