@@ -11,7 +11,14 @@ def get_train_step_fn(input_shape, anchors, anchors_mask, num_classes, label_smo
             # 计算loss
             P5_output, P4_output, P3_output = net(imgs, training=True)
             args        = [P5_output, P4_output, P3_output] + targets
-            loss_value  = yolo_loss(args, input_shape, anchors, anchors_mask, num_classes, label_smoothing=label_smoothing)
+            loss_value  = yolo_loss(
+                args, input_shape, anchors, anchors_mask, num_classes, 
+                balance=[0.4, 1.0, 4],
+                box_ratio=0.05, 
+                obj_ratio=1 * (input_shape[0] * input_shape[1]) / (640 ** 2),
+                cls_ratio=0.5 * (num_classes / 80), 
+                label_smoothing=label_smoothing
+            )
             loss_value  = tf.reduce_sum(net.losses) + loss_value
         grads = tape.gradient(loss_value, net.trainable_variables)
         optimizer.apply_gradients(zip(grads, net.trainable_variables))
