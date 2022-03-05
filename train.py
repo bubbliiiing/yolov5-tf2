@@ -235,14 +235,14 @@ if __name__ == "__main__":
         #-------------------------------------------------------------------#
         #   判断当前batch_size与64的差别，自适应调整学习率
         #-------------------------------------------------------------------#
-        nbs     = 64 
-        Init_lr = max(batch_size / nbs * Init_lr, 1e-4)
-        Min_lr  = max(batch_size / nbs * Min_lr, 1e-6)
+        nbs     = 64
+        Init_lr_fit = max(batch_size / nbs * Init_lr, 1e-4)
+        Min_lr_fit  = max(batch_size / nbs * Min_lr, 1e-6)
 
         #---------------------------------------#
         #   获得学习率下降的公式
         #---------------------------------------#
-        lr_scheduler_func = get_lr_scheduler(lr_decay_type, Init_lr, Min_lr, UnFreeze_Epoch)
+        lr_scheduler_func = get_lr_scheduler(lr_decay_type, Init_lr_fit, Min_lr_fit, UnFreeze_Epoch)
 
         epoch_step      = num_train // batch_size
         epoch_step_val  = num_val // batch_size
@@ -282,6 +282,17 @@ if __name__ == "__main__":
                 #---------------------------------------#
                 if epoch >= Freeze_Epoch and not UnFreeze_flag and Freeze_Train:
                     batch_size      = Unfreeze_batch_size
+
+                    #-------------------------------------------------------------------#
+                    #   判断当前batch_size与64的差别，自适应调整学习率
+                    #-------------------------------------------------------------------#
+                    nbs     = 64
+                    Init_lr_fit = max(batch_size / nbs * Init_lr, 1e-4)
+                    Min_lr_fit  = max(batch_size / nbs * Min_lr, 1e-6)
+                    #---------------------------------------#
+                    #   获得学习率下降的公式
+                    #---------------------------------------#
+                    lr_scheduler_func = get_lr_scheduler(lr_decay_type, Init_lr_fit, Min_lr_fit, UnFreeze_Epoch)
 
                     for i in range(len(model_body.layers)): 
                         model_body.layers[i].trainable = True
@@ -355,6 +366,19 @@ if __name__ == "__main__":
                 batch_size  = Unfreeze_batch_size
                 start_epoch = Freeze_Epoch if start_epoch < Freeze_Epoch else start_epoch
                 end_epoch   = UnFreeze_Epoch
+                    
+                #-------------------------------------------------------------------#
+                #   判断当前batch_size与64的差别，自适应调整学习率
+                #-------------------------------------------------------------------#
+                nbs     = 64
+                Init_lr_fit = max(batch_size / nbs * Init_lr, 1e-4)
+                Min_lr_fit  = max(batch_size / nbs * Min_lr, 1e-6)
+                #---------------------------------------#
+                #   获得学习率下降的公式
+                #---------------------------------------#
+                lr_scheduler_func = get_lr_scheduler(lr_decay_type, Init_lr_fit, Min_lr_fit, UnFreeze_Epoch)
+                lr_scheduler    = LearningRateScheduler(lr_scheduler_func, verbose = 1)
+                callbacks       = [logging, loss_history, checkpoint, lr_scheduler, early_stopping]
                     
                 for i in range(len(model_body.layers)): 
                     model_body.layers[i].trainable = True
