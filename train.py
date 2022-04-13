@@ -397,8 +397,8 @@ if __name__ == "__main__":
 
             if start_epoch < end_epoch:
                 print('Train on {} samples, val on {} samples, with batch size {}.'.format(num_train, num_val, batch_size))
-                model.fit_generator(
-                    generator           = train_dataloader,
+                model.fit(
+                    x                   = train_dataloader,
                     steps_per_epoch     = epoch_step,
                     validation_data     = val_dataloader,
                     validation_steps    = epoch_step_val,
@@ -450,8 +450,8 @@ if __name__ == "__main__":
                 val_dataloader.batch_size      = Unfreeze_batch_size
 
                 print('Train on {} samples, val on {} samples, with batch size {}.'.format(num_train, num_val, batch_size))
-                model.fit_generator(
-                    generator           = train_dataloader,
+                model.fit(
+                    x                   = train_dataloader,
                     steps_per_epoch     = epoch_step,
                     validation_data     = val_dataloader,
                     validation_steps    = epoch_step_val,
