@@ -64,7 +64,7 @@ def get_anchors_and_decode(feats, anchors, num_classes, input_shape, calc_loss=F
     #------------------------------------------#
     #   对先验框进行解码，并进行归一化
     #------------------------------------------#
-    box_xy          = (K.sigmoid(feats[..., :2]) * 2 - 0.5 + grid) / K.cast(grid_shape[::-1], K.dtype(feats))
+    box_xy          = (K.sigmoid(feats[..., :2]) * 2 - 0.5 + grid) / K.cast(grid_shape[..., ::-1], K.dtype(feats))
     box_wh          = (K.sigmoid(feats[..., 2:4]) * 2) ** 2 * anchors_tensor / K.cast(input_shape[::-1], K.dtype(feats))
     #------------------------------------------#
     #   获得预测框的置信度
