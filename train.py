@@ -213,7 +213,7 @@ if __name__ == "__main__":
         strategy = tf.distribute.MirroredStrategy()
     else:
         strategy = None
-        print('Number of devices: {}'.format(ngpus_per_node))
+    print('Number of devices: {}'.format(ngpus_per_node))
     
     #----------------------------------------------------#
     #   获取classes和anchor
