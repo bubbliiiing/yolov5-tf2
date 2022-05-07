@@ -165,6 +165,7 @@ class EvalCallback(keras.callbacks.Callback):
         return 
     
     def on_epoch_end(self, epoch, logs=None):
+        matplotlib.use('Agg')
         temp_epoch = epoch + 1
         if temp_epoch % self.period == 0 and self.eval_flag:
             if not os.path.exists(self.map_out_path):
