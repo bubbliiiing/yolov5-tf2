@@ -8,6 +8,7 @@ import scipy.signal
 
 import shutil
 import numpy as np
+import tensorflow as tf
 
 from tensorflow import keras
 from tensorflow.keras.layers import Input, Lambda
@@ -122,6 +123,11 @@ class EvalCallback(keras.callbacks.Callback):
                 f.write(str(0))
                 f.write("\n")
 
+    @tf.function
+    def get_pred(self, image_data, input_image_shape):
+        out_boxes, out_scores, out_classes = self.yolo_model([image_data, input_image_shape], training=False)
+        return out_boxes, out_scores, out_classes
+
     def get_map_txt(self, image_id, image, class_names, map_out_path):
         f = open(os.path.join(map_out_path, "detection-results/"+image_id+".txt"),"w") 
         #---------------------------------------------------------#
@@ -141,8 +147,9 @@ class EvalCallback(keras.callbacks.Callback):
         #---------------------------------------------------------#
         #   将图像输入网络当中进行预测！
         #---------------------------------------------------------#
-        input_image_shape = np.expand_dims(np.array([image.size[1], image.size[0]], dtype='float32'), 0)
-        out_boxes, out_scores, out_classes = self.yolo_model.predict([image_data, input_image_shape]) 
+        input_image_shape   = np.expand_dims(np.array([image.size[1], image.size[0]], dtype='float32'), 0)
+        outputs             = self.get_pred(image_data, input_image_shape) 
+        out_boxes, out_scores, out_classes = [out.numpy() for out in outputs] 
 
         top_100     = np.argsort(out_scores)[::-1][:self.max_boxes]
         out_boxes   = out_boxes[top_100]
